@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="%editor.name"
+            extensions="lp"
+            icon="icons/editor.png"
+            contributorClass="hu.radioactiveworks.lumiere.lumen.project.editors.LightProgramEditorContributor"
+            class="hu.radioactiveworks.lumiere.lumen.project.editors.LightProgramEditor"
+            id="hu.radioactiveworks.lumiere.lumen.project.editors.LightProgramEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="%category.name"
+            id="hu.radioactiveworks.lumiere.lumen.project">
+      </category>
+      <wizard
+            name="%wizard.program.name"
+            icon="icons/program.png"
+            category="hu.radioactiveworks.lumiere.lumen.project"
+            class="hu.radioactiveworks.lumiere.lumen.project.wizards.NewLightProgram"
+            id="hu.radioactiveworks.lumiere.lumen.project.wizards.NewLightProgram">
+      </wizard>
+      <wizard
+            category="hu.radioactiveworks.lumiere.lumen.project"
+            class="hu.radioactiveworks.lumiere.lumen.project.wizards.NewLightProject"
+            icon="icons/project.png"
+            id="shu.radioactiveworks.lumiere.lumen.project.wizards.NewLightProject"
+            name="%wizard.project.name"
+            project="true">
+      </wizard>
+   </extension>
+
+</plugin>

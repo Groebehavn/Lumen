@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="Lumiere Wizards"
+            id="hu.radioactiveworks.lumiere.lumen.newLumiereProject">
+      </category>
+      <wizard
+      		project="true"
+            name="New Lumiere Project Creator"
+            icon="icons/sample.gif"
+            category="hu.radioactiveworks.lumiere.lumen.newLumiereProject"
+            class="hu.radioactiveworks.lumiere.lumen.newlumiereproject.wizards.NewLumiereProjectWizard"
+            id="hu.radioactiveworks.lumiere.lumen.newlumiereproject.wizards.NewLumiereProjectWizard">
+      </wizard>
+   </extension>
+
+</plugin>

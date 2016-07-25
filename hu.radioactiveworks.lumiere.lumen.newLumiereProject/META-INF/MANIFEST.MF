@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: NewLumiereProject
+Bundle-SymbolicName: hu.radioactiveworks.lumiere.lumen.newLumiereProject;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: RadioactiveWorks
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: hu.radioactiveworks.lumiere.lumen.newlumiereproject.wizards

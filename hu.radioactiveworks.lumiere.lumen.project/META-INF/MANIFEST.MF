@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name
+Bundle-SymbolicName: hu.radioactiveworks.lumiere.lumen.project;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
+Require-Bundle: org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: hu.radioactiveworks.lumiere.lumen.project.editors;version="1.0.0",
+ hu.radioactiveworks.lumiere.lumen.project.wizards;version="1.0.0"
