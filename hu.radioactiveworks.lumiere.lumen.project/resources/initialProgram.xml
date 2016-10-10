@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <lightprogram>
 	<protocol name="LPP" generation="1">
 		<timeout>10</timeout>
@@ -74,7 +75,7 @@
 		</quantum>
 		<quantum>
 			<interpolation>
-				<enable>true</enable>
+				<enable>false</enable>
 				<time>10</time>
 			</interpolation>
 			<leds>
@@ -120,7 +121,7 @@
 		</quantum>
 		<quantum>
 			<interpolation>
-				<enable>true</enable>
+				<enable>false</enable>
 				<time>10</time>
 			</interpolation>
 			<leds>

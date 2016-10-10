@@ -35,5 +35,80 @@
             project="true">
       </wizard>
    </extension>
+   <extension
+         id="hu.radioactiveworks.lumiere.lumen.project.nature.lightProgramNature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="hu.radioactiveworks.lumiere.lumen.project.nature.AddRemoveLightProgramNatureHandler">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="hu.radioactiveworks.lumiere.lumen.project.nature.lightProgramNature.category"
+            name="LightProgram Nature commands">
+      </category>
+      <command
+            categoryId="hu.radioactiveworks.lumiere.lumen.project.nature.lightProgramNature.category"
+            id="hu.radioactiveworks.lumiere.lumen.project.nature.addRemoveLightProgramNature"
+            name="Add/RemoveLightProgram Nature">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+         <command
+               commandId="hu.radioactiveworks.lumiere.lumen.project.nature.addRemoveLightProgramNature"
+               label="Deconfigure Lumiere Project"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <test
+                              property="org.eclipse.core.resources.projectNature"
+                              value="hu.radioactiveworks.lumiere.lumen.builder.lightProgramNature">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="hu.radioactiveworks.lumiere.lumen.project.nature.addRemoveLightProgramNature"
+               label="Configure Lumiere Project"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <not>
+                           <test
+                                 property="org.eclipse.core.resources.projectNature"
+                                 value="hu.radioactiveworks.lumiere.lumen.builder.lightProgramNature">
+                           </test>
+                        </not>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
 
 </plugin>

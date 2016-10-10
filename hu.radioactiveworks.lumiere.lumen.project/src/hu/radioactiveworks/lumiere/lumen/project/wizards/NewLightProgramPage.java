@@ -118,7 +118,7 @@ public class NewLightProgramPage extends WizardPage {
 			}
 		}
 		try {
-			fileText.setText(getNextAvailableFilename("program.lp"));
+			fileText.setText(getNextAvailableFilename("program.xml"));
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -223,8 +223,8 @@ public class NewLightProgramPage extends WizardPage {
 		int dotLoc = fileName.lastIndexOf('.');
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("lp") == false) {
-				updateStatus("File extension must be \"lp\"");
+			if (ext.equalsIgnoreCase("xml") == false) {
+				updateStatus("File extension must be \"xml\"");
 				return;
 			}
 		}

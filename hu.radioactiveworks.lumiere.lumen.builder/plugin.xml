@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="hu.radioactiveworks.lumiere.lumen.builder.lightProgramBuilder"
+         name="LightProgram Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder>
+         <run
+               class="hu.radioactiveworks.lumiere.lumen.builder.LightProgramBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="hu.radioactiveworks.lumiere.lumen.builder.parsingProblem"
+         name="Parsing Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         id="hu.radioactiveworks.lumiere.lumen.builder.compilationProblem"
+         name="Compilation Problem"
+         point="org.eclipse.core.resources.markers">
+      <persistent
+            value="true">
+      </persistent>
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+   </extension>
+
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml">
+      </toc>
+      <toc
+            file="testToc.xml"
+            primary="true">
+      </toc>
+   </extension>
+
+</plugin>

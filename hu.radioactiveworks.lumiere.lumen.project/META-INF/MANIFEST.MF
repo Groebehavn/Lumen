@@ -9,7 +9,8 @@ Require-Bundle: org.eclipse.jface.text,
  org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ hu.radioactiveworks.lumiere.lumen.builder
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: hu.radioactiveworks.lumiere.lumen.project.editors;version="1.0.0",
  hu.radioactiveworks.lumiere.lumen.project.wizards;version="1.0.0"
