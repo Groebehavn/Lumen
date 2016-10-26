@@ -27,6 +27,7 @@ final class ParsingHandler extends DefaultHandler {
 	public ParsingHandler(IFile file) {
 		this.file = file;
 		this.eBuilder = new ElementBuilder();
+		this.pbuilder = new ProgramBuilder();
 	}
 
 	private void addMarker(SAXParseException e, int severity) {
@@ -71,6 +72,13 @@ final class ParsingHandler extends DefaultHandler {
 	public void endDocument() throws SAXException {
 		// TODO Auto-generated method stub
 		super.endDocument();
+		
+		try {
+			pbuilder.build(eBuilder.getFinishedElements());
+		} catch (BuilderException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {

@@ -58,4 +58,10 @@ public class RGBColor {
 	public void setBlue(int blue) {
 		this.blue = blue;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return Integer.toString(red) + "," + Integer.toString(green) + "," + Integer.toString(blue);
+	}
 }

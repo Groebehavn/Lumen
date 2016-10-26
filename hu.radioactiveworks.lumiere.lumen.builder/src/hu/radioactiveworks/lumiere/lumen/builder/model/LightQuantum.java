@@ -49,4 +49,17 @@ public class LightQuantum {
 	public void putColorToQuantum(LED_POSITION pos, RGBColor color) {
 		colorMap.put(pos, color);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder(2048);
+		builder.append("Quantum of: \n");
+		builder.append("Int.enable " + Boolean.toString(interpolationDesc.enabled) + "\n");
+		builder.append("Int.timeout " + Integer.toString(interpolationDesc.time) + "\n");
+		builder.append("Q left " + colorMap.get(LED_POSITION.LEFT) + "\n");
+		builder.append("Q center " + colorMap.get(LED_POSITION.CENTER) + "\n");
+		builder.append("Q right " + colorMap.get(LED_POSITION.RIGHT) + "\n");
+		
+		return builder.toString();
+	}
 }

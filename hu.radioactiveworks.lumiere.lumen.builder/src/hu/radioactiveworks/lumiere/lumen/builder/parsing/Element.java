@@ -1,16 +1,25 @@
 package hu.radioactiveworks.lumiere.lumen.builder.parsing;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.xml.sax.Attributes;
 
 public class Element {
 	private String name;
-	private Attributes attributes;
+	private Map<String,String> attributes;
 	private String value;
 	
 	public Element(String name, Attributes attributes)
 	{
 		this.name = name;
-		this.attributes = attributes;
+		//TODO: Miért is 6 az initialCapacity? Ez azt jelenti, hogy 4 után jön a rehash!
+		//4-nél tuti nem lesz több attribute soha?
+		this.attributes = new HashMap<>(6);
+		for(int i=0; i<attributes.getLength(); i++)
+		{
+			this.attributes.put(attributes.getLocalName(i), attributes.getValue(i));
+		}
 	}
 	
 	public void setValue(String value)
@@ -22,7 +31,7 @@ public class Element {
 		return name;
 	}
 
-	public Attributes getAttributes() {
+	public Map<String,String> getAttributes() {
 		return attributes;
 	}
 

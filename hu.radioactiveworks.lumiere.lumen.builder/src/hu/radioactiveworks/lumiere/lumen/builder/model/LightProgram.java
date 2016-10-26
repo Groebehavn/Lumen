@@ -1,16 +1,16 @@
 package hu.radioactiveworks.lumiere.lumen.builder.model;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class LightProgram {
 	
-	private ArrayList<LightQuantum> quantumList;
+	private LinkedList<LightQuantum> quantumList;
 	
 	public LightProgram() {
-		quantumList = new ArrayList<LightQuantum>();
+		quantumList = new LinkedList<LightQuantum>();
 	}
 	
-	public ArrayList<LightQuantum> getQuantumList() {
+	public LinkedList<LightQuantum> getQuantumList() {
 		return quantumList;
 	}
 
@@ -18,4 +18,17 @@ public class LightProgram {
 		return null;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder(4096);
+		
+		for(LightQuantum quantum : quantumList)
+		{
+			builder.append(">\n");
+			builder.append(quantum);
+			builder.append("\n");
+		}
+		
+		return builder.toString();
+	}
 }

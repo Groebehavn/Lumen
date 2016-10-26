@@ -1,7 +1,10 @@
 package hu.radioactiveworks.lumiere.lumen.builder.parsing;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.xml.sax.Attributes;
@@ -15,94 +18,144 @@ import hu.radioactiveworks.lumiere.lumen.builder.model.RGBColor;
 
 public final class ProgramBuilder {
 	
-	private static enum EParsableElements 
-	{
-		LightProgram,
-		Quantums,
-		Quantum,
-		Interpolation,
-		Enable,
-		Time,
-		Leds,
-		Led,
-		R,
-		G,
-		B
-	}
+	private Map<String,Boolean> elementMap;
 	
-	private Map<EParsableElements,Boolean> phases;
 	private LightProgram programUnderParse;
 	private LightQuantum quantumUnderParse;
 	private LED_POSITION ledPosition;
-	private RGBColor rgbColor;
+	private List<RGBColor> rgbList;
+	private Map<String,Integer> rgbValues;
 	private InterpolationDescription interpolationDesc;
 	
 	public ProgramBuilder()
 	{
-		this.phases = new HashMap<EParsableElements,Boolean>();
-	}
-	
-	public void startBuild()
-	{
-		for(EParsableElements element : EParsableElements.values())
-		{
-			phases.put(element, false);
-		}
-		programUnderParse = new LightProgram();
-	}
-	
-	public void startPhase(String elementName) throws BuilderException
-	{
+		elementMap = new HashMap<>();	//16
+		elementMap.put("lightprogram", false);
+		elementMap.put("quantums", false);
+		elementMap.put("quantum", false);
+		elementMap.put("interpolation", false);
+		elementMap.put("enable", false);
+		elementMap.put("time", false);
+		elementMap.put("leds", false);
+		elementMap.put("led", false);
+		elementMap.put("r", false);
+		elementMap.put("g", false);
+		elementMap.put("b", false);
 		
+		rgbValues = new HashMap<>(6);
+		rgbList = new ArrayList<>(3);
 	}
 	
-	private void setPhase(String elementName, boolean state) throws BuilderException
+	public LightProgram build(List<Element> parsedElements) throws BuilderException
 	{
-		boolean foundPhase = false;
-		for(EParsableElements element : EParsableElements.values())
+		programUnderParse = new LightProgram();
+		
+		//Going backwards in the list
+		for(int i=parsedElements.size()-1; i>=0; i--)
 		{
-			if(element.toString().equalsIgnoreCase(elementName))
+			parseElement(parsedElements.get(i));
+		}
+		
+		System.out.println(programUnderParse);
+		//TODO: kimarad az elsõ quantum!!!???
+		return programUnderParse;
+	}
+
+	private void parseElement(Element element) throws BuilderException {
+		Iterator<String> it = elementMap.keySet().iterator();
+		String currentElementName = null;
+		
+		//Set flag in the map
+		while(it.hasNext())
+		{
+			String str = it.next();
+			if(element.getName().equalsIgnoreCase(str))
 			{
-				phases.put(element, state);
-				foundPhase = true;
+				elementMap.put(str, true);
+				currentElementName = str;
 				break;
 			}
 		}
-		if(foundPhase == false)
+		
+		if(currentElementName == null)
 		{
-			throw new BuilderException("No matching phase to: " + elementName);
+			return;
+		}
+		
+		//Switch with the name of the element in map (safe for case sensitivity)
+		switch(currentElementName)
+		{
+		case "led":
+			parseElementLed(element);
+			break;
+		case "r":
+		case "g":
+		case "b":
+			parseElementRGBValues(element, currentElementName);
+			break;
+		case "leds":
+			break;
+		case "interpolation":
+			interpolationDesc = new InterpolationDescription();
+			break;
+		case "time":
+			
+			break;
+		case "enable":
+			
+			break;
+		case "quantum":
+			addQuantumToProgram();
+		default:
+			
+		}
+		
+		int j=0;
+		j++;
+	}
+
+	private void addQuantumToProgram() {
+		if(quantumUnderParse != null && quantumUnderParse.isValid())
+		{
+			programUnderParse.getQuantumList().addFirst(quantumUnderParse);
+		}
+		
+		quantumUnderParse = new LightQuantum();
+	}
+
+	private void parseElementRGBValues(Element element, String currentElementName) {
+		rgbValues.put(currentElementName, Integer.parseInt(element.getValue()));
+		if(rgbValues.size() == 3)
+		{
+			quantumUnderParse.putColorToQuantum(ledPosition, 
+					new RGBColor(rgbValues.get("r"),
+							rgbValues.get("g"),
+							rgbValues.get("b")));
+			rgbValues.clear();
 		}
 	}
-	
-	//Nem jó, mert nem egyszerre jön be az attribútum és a value, és ha már builderrõl beszélünk,
-	//ez legyen lekezelve...
-	public void addParams(String elementName, Map<String,String> attributes, String value)
-	{
-		//No need to check if the key is there... xsd check already done
-		if(elementName.equalsIgnoreCase(EParsableElements.Led.toString()))
+
+	private void parseElementLed(Element element) throws BuilderException {
+		if(element.getAttributes().containsKey("specifier"))
 		{
-			ledPosition = LED_POSITION.valueOf(attributes.get("specifier"));
+			ledPosition = null;
+			for(LED_POSITION pos : LED_POSITION.values())
+			{
+				if(element.getAttributes().get("specifier").equalsIgnoreCase(pos.toString()))
+				{
+					ledPosition = pos;
+				}
+			}
+			
+			if(ledPosition == null)
+			{
+				throw new BuilderException("No matching specifier for led! Value: " + element.getAttributes().containsKey("specifier"));
+			}
 		}
-		if(elementName.equalsIgnoreCase(EParsableElements.R.toString()))
+		else
 		{
-			rgbColor.setRed(Integer.parseInt(value));
+			//TODO
 		}
-		if(elementName.equalsIgnoreCase(EParsableElements.G.toString()))
-		{
-			rgbColor.setGreen(Integer.parseInt(value));
-		}
-		if(elementName.equalsIgnoreCase(EParsableElements.B.toString()))
-		{
-			rgbColor.setBlue(Integer.parseInt(value));
-		}
-	}
-	
-	public LightProgram build() throws BuilderException
-	{
-		if(true == phases.get(EParsableElements.LightProgram))
-		{
-			throw new BuilderException("Builder is not finished yet!");
-		}
-		return programUnderParse;
+		
 	}
 }
