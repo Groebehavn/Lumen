@@ -1,14 +1,9 @@
 package hu.radioactiveworks.lumiere.lumen.builder.parsing;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 
 import hu.radioactiveworks.lumiere.lumen.builder.model.InterpolationDescription;
 import hu.radioactiveworks.lumiere.lumen.builder.model.LightProgram;
@@ -18,36 +13,20 @@ import hu.radioactiveworks.lumiere.lumen.builder.model.RGBColor;
 
 public final class ProgramBuilder {
 	
-	private Map<String,Boolean> elementMap;
-	
 	private LightProgram programUnderParse;
 	private LightQuantum quantumUnderParse;
 	private LED_POSITION ledPosition;
-	private List<RGBColor> rgbList;
 	private Map<String,Integer> rgbValues;
 	private InterpolationDescription interpolationDesc;
 	
 	public ProgramBuilder()
 	{
-		elementMap = new HashMap<>();	//16
-		elementMap.put("lightprogram", false);
-		elementMap.put("quantums", false);
-		elementMap.put("quantum", false);
-		elementMap.put("interpolation", false);
-		elementMap.put("enable", false);
-		elementMap.put("time", false);
-		elementMap.put("leds", false);
-		elementMap.put("led", false);
-		elementMap.put("r", false);
-		elementMap.put("g", false);
-		elementMap.put("b", false);
-		
 		rgbValues = new HashMap<>(6);
-		rgbList = new ArrayList<>(3);
 	}
 	
 	public LightProgram build(List<Element> parsedElements) throws BuilderException
 	{
+		//TODO: Ide akkor is beesik, ha van error marker a fájlon...
 		programUnderParse = new LightProgram();
 		
 		//Going backwards in the list
@@ -56,34 +35,17 @@ public final class ProgramBuilder {
 			parseElement(parsedElements.get(i));
 		}
 		
+		System.out.println(Calendar.getInstance().getTime());
 		System.out.println(programUnderParse);
-		//TODO: kimarad az elsõ quantum!!!???
+		System.out.println("***END***");
 		return programUnderParse;
 	}
 
 	private void parseElement(Element element) throws BuilderException {
-		Iterator<String> it = elementMap.keySet().iterator();
-		String currentElementName = null;
+		//Switch with the name in lower case
+		String elementName = element.getName().toLowerCase();
 		
-		//Set flag in the map
-		while(it.hasNext())
-		{
-			String str = it.next();
-			if(element.getName().equalsIgnoreCase(str))
-			{
-				elementMap.put(str, true);
-				currentElementName = str;
-				break;
-			}
-		}
-		
-		if(currentElementName == null)
-		{
-			return;
-		}
-		
-		//Switch with the name of the element in map (safe for case sensitivity)
-		switch(currentElementName)
+		switch(elementName)
 		{
 		case "led":
 			parseElementLed(element);
@@ -91,36 +53,34 @@ public final class ProgramBuilder {
 		case "r":
 		case "g":
 		case "b":
-			parseElementRGBValues(element, currentElementName);
+			parseElementRGBValues(element, elementName);
 			break;
 		case "leds":
 			break;
 		case "interpolation":
-			interpolationDesc = new InterpolationDescription();
+			addInterpolationDescToQuantum();
 			break;
 		case "time":
-			
+			interpolationDesc.setTime(Integer.parseInt(element.getValue()));
 			break;
 		case "enable":
-			
+			interpolationDesc.setEnabled(Boolean.parseBoolean(element.getValue()));
 			break;
 		case "quantum":
 			addQuantumToProgram();
 		default:
 			
 		}
-		
-		int j=0;
-		j++;
+	}
+
+	private void addInterpolationDescToQuantum() {
+		interpolationDesc = new InterpolationDescription();
+		quantumUnderParse.setInterpolationDesc(interpolationDesc);
 	}
 
 	private void addQuantumToProgram() {
-		if(quantumUnderParse != null && quantumUnderParse.isValid())
-		{
-			programUnderParse.getQuantumList().addFirst(quantumUnderParse);
-		}
-		
 		quantumUnderParse = new LightQuantum();
+		programUnderParse.getQuantumList().addFirst(quantumUnderParse);
 	}
 
 	private void parseElementRGBValues(Element element, String currentElementName) {
@@ -154,7 +114,8 @@ public final class ProgramBuilder {
 		}
 		else
 		{
-			//TODO
+			ledPosition = null;
+			throw new BuilderException("No LED specifier");
 		}
 		
 	}

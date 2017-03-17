@@ -47,24 +47,25 @@ public class LightProgramBuilder extends IncrementalProjectBuilder {
 	 */
 	protected IProject[] build(int kind, @SuppressWarnings("rawtypes") Map args, IProgressMonitor monitor)
 			throws CoreException {
-		if (kind == FULL_BUILD) {
-			fullBuild(monitor);
-		} else {
-			IResourceDelta delta = getDelta(getProject());
-			if (delta == null) {
-				fullBuild(monitor);
-			} else {
-				incrementalBuild(delta, monitor);
-			}
+		if(kind == INCREMENTAL_BUILD)
+		{
+			incrementalBuild(getDelta(getProject()), monitor);
 		}
+		else
+		{
+			fullBuild(monitor);
+		}
+		
 		return null;
 	}
 
 	protected void clean(IProgressMonitor monitor) throws CoreException {
 		// delete markers set and files created
-		monitor.beginTask("Clean Project", 1);
+		monitor.beginTask("Clean Markers", 2);
 		getProject().deleteMarkers(lpParser.getMarker(), true, IResource.DEPTH_INFINITE);
+		monitor.worked(1);
 		getProject().deleteMarkers(lpCompiler.getMarker(), true, IResource.DEPTH_INFINITE);
+		monitor.worked(2);
 		monitor.done();
 	}
 
@@ -75,9 +76,7 @@ public class LightProgramBuilder extends IncrementalProjectBuilder {
 		} catch (CoreException e) {
 		}
 	}
-
 	
-
 	protected void incrementalBuild(IResourceDelta delta,
 			IProgressMonitor monitor) throws CoreException {
 		// the visitor does the work.

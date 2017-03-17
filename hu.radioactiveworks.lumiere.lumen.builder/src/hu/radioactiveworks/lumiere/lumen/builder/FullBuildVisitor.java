@@ -19,7 +19,7 @@ class FullBuildVisitor implements IResourceVisitor {
 	}
 	
 	public boolean visit(IResource resource) {
-		monitor.beginTask("Full Build", 2);
+		monitor.beginTask("Full Build on " + resource.getName(), 2);
 		monitor.subTask("Removing binaries");
 		lpCompiler.removeBinary(resource);
 		monitor.worked(1);

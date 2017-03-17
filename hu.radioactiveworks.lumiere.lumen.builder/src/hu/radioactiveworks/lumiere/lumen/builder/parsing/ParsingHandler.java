@@ -22,12 +22,12 @@ final class ParsingHandler extends DefaultHandler {
 	
 	private IFile file;
 	private ElementBuilder eBuilder;
-	private ProgramBuilder pbuilder;
+	private ProgramBuilder pBuilder;
 
 	public ParsingHandler(IFile file) {
 		this.file = file;
 		this.eBuilder = new ElementBuilder();
-		this.pbuilder = new ProgramBuilder();
+		this.pBuilder = new ProgramBuilder();
 	}
 
 	private void addMarker(SAXParseException e, int severity) {
@@ -74,7 +74,7 @@ final class ParsingHandler extends DefaultHandler {
 		super.endDocument();
 		
 		try {
-			pbuilder.build(eBuilder.getFinishedElements());
+			pBuilder.build(eBuilder.getFinishedElements());
 		} catch (BuilderException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

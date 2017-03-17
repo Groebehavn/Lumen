@@ -25,21 +25,32 @@ class IncrementalBuildVisitor implements IResourceDeltaVisitor {
 	 */
 	public boolean visit(IResourceDelta delta) throws CoreException {
 		IResource resource = delta.getResource();
-		switch (delta.getKind()) {
-		case IResourceDelta.ADDED:
-			// handle added resource
-			lpCompiler.createFromResource(resource);
-			break;
-		case IResourceDelta.REMOVED:
-			// handle removed resource
+		
+		monitor.beginTask("Incremental Build on " + resource.getName(), 2);
+		monitor.subTask("Removing binaries");
+		
+		if(delta.getKind() == IResourceDelta.REMOVED
+				||
+				delta.getKind() == IResourceDelta.CHANGED)
+		{
+			// handle removed or changed resource
 			lpCompiler.removeBinary(resource);
-			break;
-		case IResourceDelta.CHANGED:
-			// handle changed resource
-			lpCompiler.removeBinary(resource);
-			lpCompiler.createFromResource(resource);
-			break;
 		}
+		
+		monitor.worked(1);
+		monitor.subTask("Compiling binaries");
+		
+		if(delta.getKind() == IResourceDelta.ADDED
+				||
+				delta.getKind() == IResourceDelta.CHANGED)
+		{
+			// handle added or changed resource
+			lpCompiler.createFromResource(resource);
+		}
+		
+		monitor.worked(2);
+		monitor.done();
+		
 		//return true to continue visiting children.
 		return true;
 	}

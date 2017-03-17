@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
 
 import hu.radioactiveworks.lumiere.lumen.builder.model.LightProgram;
 import hu.radioactiveworks.lumiere.lumen.builder.parsing.LightProgramParser;
@@ -23,8 +24,38 @@ public class LightProgramCompiler {
 		return CompilationErrorHandler.MARKER_TYPE;
 	}
 	
+	public void removeBinary(IResource resource) {
+		//TODO: Bináris fájl nem tûnik el!
+		if (resource instanceof IFile && resource.getName().endsWith(".xml"))
+		{
+			removeBinaryFileOfResource(resource);
+		}
+	}
+	
+	private void removeBinaryFileOfResource(IResource resource)
+	{
+		//TODO: Nem szedi ki a binárist, sõt... :(
+		String fileName = ((IFile)resource).getName();
+		IPath binaryFolderPath = ((IFile)resource).getFullPath().removeLastSegments(1);
+		binaryFolderPath = binaryFolderPath.addTrailingSeparator();
+		binaryFolderPath = binaryFolderPath.append("bin");
+		binaryFolderPath = binaryFolderPath.addTrailingSeparator();
+		binaryFolderPath = binaryFolderPath.append(((IFile)resource).getName().substring(0, ((IFile)resource).getName().length()-4));
+		binaryFolderPath = binaryFolderPath.addFileExtension("bin");
+		
+		File binaryFile = new File(binaryFolderPath.toString() + fileName.substring(0, fileName.length()-3)+"bin");
+		
+		if(!binaryFile.exists())
+		{
+			return;
+		}
+		
+		binaryFile.delete();
+	}
+
 	public void createFromResource(IResource resource) {
-		if (resource instanceof IFile && resource.getName().endsWith(".xml")) {
+		if (resource instanceof IFile && resource.getName().endsWith(".xml"))
+		{
 			lpParser.parseProgram(resource, lightProgram);
 			
 			stuffData(lightProgram, createBinaryFile((IFile)resource));
@@ -52,9 +83,5 @@ public class LightProgramCompiler {
 		}
 		
 		return binaryFile;
-	}
-	
-	public void removeBinary(IResource resource) {
-		
 	}
 }
