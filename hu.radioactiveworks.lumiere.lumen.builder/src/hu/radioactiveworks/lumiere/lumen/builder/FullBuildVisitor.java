@@ -5,8 +5,6 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import hu.radioactiveworks.lumiere.lumen.builder.compilation.LightProgramCompiler;
-import hu.radioactiveworks.lumiere.lumen.builder.model.LightProgram;
-import hu.radioactiveworks.lumiere.lumen.builder.parsing.LightProgramParser;
 
 class FullBuildVisitor implements IResourceVisitor {
 	
@@ -21,7 +19,7 @@ class FullBuildVisitor implements IResourceVisitor {
 	public boolean visit(IResource resource) {
 		monitor.beginTask("Full Build on " + resource.getName(), 2);
 		monitor.subTask("Removing binaries");
-		lpCompiler.removeBinary(resource);
+		lpCompiler.removeBinaryOfProgram(resource);
 		monitor.worked(1);
 		monitor.subTask("Compiling binaries");
 		lpCompiler.createFromResource(resource);

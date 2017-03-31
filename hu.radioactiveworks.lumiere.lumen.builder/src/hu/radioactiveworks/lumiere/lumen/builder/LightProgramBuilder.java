@@ -2,23 +2,13 @@ package hu.radioactiveworks.lumiere.lumen.builder;
 
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import hu.radioactiveworks.lumiere.lumen.builder.compilation.LightProgramCompiler;
 import hu.radioactiveworks.lumiere.lumen.builder.parsing.LightProgramParser;
@@ -56,6 +46,8 @@ public class LightProgramBuilder extends IncrementalProjectBuilder {
 			fullBuild(monitor);
 		}
 		
+		getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		
 		return null;
 	}
 
@@ -66,6 +58,10 @@ public class LightProgramBuilder extends IncrementalProjectBuilder {
 		monitor.worked(1);
 		getProject().deleteMarkers(lpCompiler.getMarker(), true, IResource.DEPTH_INFINITE);
 		monitor.worked(2);
+		monitor.beginTask("Clean Files", 1);
+		getProject().accept(new CleanVisitor(getProject(), lpCompiler, monitor));
+		getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		monitor.worked(1);
 		monitor.done();
 	}
 

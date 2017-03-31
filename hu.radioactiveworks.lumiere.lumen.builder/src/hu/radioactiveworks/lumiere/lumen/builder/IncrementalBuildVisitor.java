@@ -34,7 +34,7 @@ class IncrementalBuildVisitor implements IResourceDeltaVisitor {
 				delta.getKind() == IResourceDelta.CHANGED)
 		{
 			// handle removed or changed resource
-			lpCompiler.removeBinary(resource);
+			lpCompiler.removeBinaryOfProgram(resource);
 		}
 		
 		monitor.worked(1);

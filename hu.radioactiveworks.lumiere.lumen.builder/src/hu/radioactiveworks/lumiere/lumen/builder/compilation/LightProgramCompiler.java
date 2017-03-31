@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 
@@ -24,8 +23,14 @@ public class LightProgramCompiler {
 		return CompilationErrorHandler.MARKER_TYPE;
 	}
 	
-	public void removeBinary(IResource resource) {
-		//TODO: Bináris fájl nem tûnik el!
+	public void cleanBinary(IResource resource) {
+		if (resource instanceof IFile && resource.getName().endsWith(".bin"))
+		{
+			deleteFile(((IFile)resource).getRawLocation());
+		}
+	}
+	
+	public void removeBinaryOfProgram(IResource resource) {
 		if (resource instanceof IFile && resource.getName().endsWith(".xml"))
 		{
 			removeBinaryFileOfResource(resource);
@@ -34,16 +39,20 @@ public class LightProgramCompiler {
 	
 	private void removeBinaryFileOfResource(IResource resource)
 	{
-		//TODO: Nem szedi ki a binárist, sõt... :(
-		String fileName = ((IFile)resource).getName();
-		IPath binaryFolderPath = ((IFile)resource).getFullPath().removeLastSegments(1);
+		IPath binaryFolderPath = ((IFile)resource).getRawLocation().removeLastSegments(1);
 		binaryFolderPath = binaryFolderPath.addTrailingSeparator();
+		//TODO: "bin" kivétele, hogy ha megváltozik a jövõben a fordított fájltípus
 		binaryFolderPath = binaryFolderPath.append("bin");
 		binaryFolderPath = binaryFolderPath.addTrailingSeparator();
 		binaryFolderPath = binaryFolderPath.append(((IFile)resource).getName().substring(0, ((IFile)resource).getName().length()-4));
 		binaryFolderPath = binaryFolderPath.addFileExtension("bin");
 		
-		File binaryFile = new File(binaryFolderPath.toString() + fileName.substring(0, fileName.length()-3)+"bin");
+		deleteFile(binaryFolderPath);
+	}
+	
+	private void deleteFile(IPath iPath)
+	{
+		File binaryFile = iPath.toFile();
 		
 		if(!binaryFile.exists())
 		{
