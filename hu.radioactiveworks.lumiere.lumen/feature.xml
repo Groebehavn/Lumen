@@ -8,15 +8,17 @@
       ws="win32"
       nl="en">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="http://www.projectlumen.com">
+      LUMEN - Light up your room with the colors you want! The way
+you want!
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="http://www.projectlumen.com/copyright">
+      Copyright text which should be revisited before releasing the
+feature.
    </copyright>
 
-   <license url="http://www.example.com/license">
+   <license url="http://www.projectlumen.com/license">
       [Enter License Description here.]
    </license>
 
@@ -1209,13 +1211,6 @@
          unpack="false"/>
 
    <plugin
-         id="hu.radioactiveworks.lumiere.lumen.newLumiereProject"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.e4.ui.css.core"
          download-size="0"
          install-size="0"
@@ -2370,13 +2365,6 @@
 
    <plugin
          id="org.eclipse.mylyn.versions.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="hu.radioactiveworks.lumiere.lumen.helloworld"
          download-size="0"
          install-size="0"
          version="0.0.0"

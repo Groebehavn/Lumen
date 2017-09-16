@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="hu.radioactiveworks.lumiere.lumen.communication.serial.impl">
+   <implementation class="hu.radioactiveworks.lumiere.lumen.communication.serial.impl.DefaultRxTxLibSerialCommunicator"/>
+   <service>
+      <provide interface="hu.radioactiveworks.lumiere.lumen.communication.serial.api.ISerialCommunicator"/>
+   </service>
+</scr:component>
