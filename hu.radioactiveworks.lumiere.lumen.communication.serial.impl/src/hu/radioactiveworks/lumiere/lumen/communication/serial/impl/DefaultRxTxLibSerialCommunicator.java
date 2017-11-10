@@ -16,6 +16,7 @@ public class DefaultRxTxLibSerialCommunicator implements ISerialCommunicator {
 	private static final byte[] stopCommand = {'S','T','O','P',delimiter};
 	private static final byte[] headerCommand = {'H','E','A','D','E','R',' '};
 	private static final byte[] quantumCommand = {'Q',' '};
+	private static final byte[] runCommand = {'R','U','N',' ',};
 	
 	@Override
 	public void setComPort(String comPortName)
@@ -46,6 +47,12 @@ public class DefaultRxTxLibSerialCommunicator implements ISerialCommunicator {
 	public void sendQuantum(byte[] quantumData) throws SerialCommunicationException
 	{
 		sendBytes(concatenate(quantumCommand, quantumData));
+		sendBytes(new byte[]{delimiter});
+	}
+	
+	public void sendRun(String id) throws SerialCommunicationException
+	{
+		sendBytes(concatenate(runCommand, id.getBytes()));
 		sendBytes(new byte[]{delimiter});
 	}
 	

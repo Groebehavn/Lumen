@@ -12,4 +12,5 @@ public interface ISerialCommunicator {
 	
 	public void sendQuantum(byte[] quantumData) throws SerialCommunicationException;
 	
+	public void sendRun(String id) throws SerialCommunicationException;
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="hu.radioactiveworks.lumiere.lumen.launcher.PhotonLaunchConfiguration"
+            id="hu.radioactiveworks.lumiere.lumen.launcher.SerialLauncherType"
+            modes="run"
+            name="Serial Launcher"
+            public="true">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="hu.radioactiveworks.lumiere.lumen.launcher.LaunchConfigurationTabGroupSerial"
+            id="hu.radioactiveworks.lumiere.lumen.launcher.launchConfigurationTabGroupSerial"
+            type="hu.radioactiveworks.lumiere.lumen.launcher.SerialLauncherType">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            class="hu.radioactiveworks.lumiere.lumen.launcher.LaunchShortcut"
+            icon="icons/sync.png"
+            id="hu.radioactiveworks.lumiere.lumen.launcher.shortcut"
+            label="label"
+            modes="hu.radioactiveworks.lumiere.lumen.launcher.shortcut">
+      </shortcut>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="hu.radioactiveworks.lumiere.lumen.launcher.SerialLauncherType"
+            icon="icons/settings.png"
+            id="hu.radioactiveworks.lumiere.lumen.launcher.launchConfigurationTypeImage">
+      </launchConfigurationTypeImage>
+   </extension>
+
+</plugin>

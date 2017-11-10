@@ -6,3 +6,4 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: RadioactiveWorks
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: hu.radioactiveworks.lumiere.lumen.communication.serial.api;version="1.0.0"
+Bundle-ActivationPolicy: lazy

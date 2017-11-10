@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.splashHandlers">
+      <splashHandler
+            class="hu.radioactiveworks.lumiere.workbench.splash.LumiereSplashHandler"
+            id="hu.radioactiveworks.lumiere.workbench.splash">
+      </splashHandler>
+      <splashHandlerProductBinding
+            productId="hu.radioactiveworks.lumiere.workbench.splash"
+            splashId="hu.radioactiveworks.lumiere.workbench.splash">
+      </splashHandlerProductBinding>
+   </extension>
+   <extension
+         id="lumiereWorkbench"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="Lumiere Workbench">
+         <property
+               name="windowImages"
+               value="icons/icons8-Fire_16.png,icons/icons8-Fire_32.png,icons/icons8-Fire_48.png,icons/icons8-Fire_64.png">
+         </property>
+         <property
+               name="aboutText"
+               value="%productBlurb">
+         </property>
+         <property
+               name="aboutImage"
+               value="eclipse_lg.png">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="10,380,580,10">
+         </property>
+         <property
+               name="appName"
+               value="Lumiere Workbench">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="10,350,580,25">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
+
+</plugin>

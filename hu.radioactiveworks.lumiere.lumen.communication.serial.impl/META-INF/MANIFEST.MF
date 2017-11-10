@@ -1,11 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Serial
-Bundle-SymbolicName: hu.radioactiveworks.lumiere.lumen.communication.serial.impl;singleton:=true
+Bundle-SymbolicName: hu.radioactiveworks.lumiere.lumen.communication.serial.impl
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: RadioactiveWorks
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Activator: hu.radioactiveworks.lumiere.lumen.communication.SerialBundleActivator
 Import-Package: org.osgi.framework
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGi-INF/component.xml
@@ -13,3 +12,6 @@ Require-Bundle: org.eclipse.equinox.ds;bundle-version="1.4.300",
  org.eclipse.equinox.util;bundle-version="1.0.500",
  org.eclipse.osgi.services;bundle-version="3.5.0",
  hu.radioactiveworks.lumiere.lumen.communication.serial.api;bundle-version="1.0.0"
+Bundle-Activator: hu.radioactiveworks.lumiere.lumen.communication.serial.impl.Activator
+Bundle-ClassPath: lib/RXTXcomm.jar,
+ .
